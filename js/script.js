@@ -1,0 +1,162 @@
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getFirestore, collection, addDoc, getDocs, serverTimestamp, query, orderBy } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+// Firebase config
+const firebaseConfig = {
+  apiKey: "AIzaSyAumQNQpLWSll-9Zuf74J93fvmV8ykE4HQ",
+  authDomain: "comment-box-1b61e.firebaseapp.com",
+  projectId: "comment-box-1b61e",
+  storageBucket: "comment-box-1b61e.appspot.com",
+  messagingSenderId: "167034835541",
+  appId: "1:167034835541:web:98828fdcf3649c174c7adc",
+  measurementId: "G-L7QTPK805N"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+const form = document.getElementById('commentForm');
+const commentContainer = document.getElementById('posted-comments');
+
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const name = form['commenter-name'].value;
+  const message = form['comment'].value;
+
+  if (!name || !message) return;
+
+  try {
+    await addDoc(collection(db, "comments"), {
+      name,
+      message,
+      timestamp: serverTimestamp()
+    });
+
+    showSuccess(name);
+    form.reset();
+    loadComments(); // Reload all comments
+  } catch (err) {
+    alert("❌ Error sending comment: " + err.message);
+  }
+});
+
+// Load Comments
+async function loadComments() {
+  commentContainer.innerHTML = "";
+
+  const q = query(collection(db, "comments"), orderBy("timestamp", "desc"));
+  const querySnapshot = await getDocs(q);
+
+  querySnapshot.forEach((doc) => {
+    const data = doc.data();
+    const div = document.createElement('div');
+    div.className = "user-comment";
+    div.innerHTML = `
+      <div class="comment-header">
+      <span class="avatar">${data.name ? data.name.charAt(0).toUpperCase() : "?"}</span>
+      <strong class="commenter-name">${data.name || "Anonymous"}</strong>
+      <span class="comment-time">${data.timestamp?.toDate ? data.timestamp.toDate().toLocaleString() : ""}</span>
+      </div>
+      <div class="comment-body">
+      <p>${data.message}</p>
+      </div>
+    `;
+    commentContainer.appendChild(div);
+  });
+}
+
+function showSuccess(name) {
+  const div = document.createElement("div");
+  div.className = "success-msg";
+  div.textContent = `✅ ${name}, your comment was posted!`;
+  form.parentElement.prepend(div);
+  setTimeout(() => div.remove(), 3000);
+}
+
+window.addEventListener('DOMContentLoaded', loadComments);
+
+
+
+
+document.addEventListener('DOMContentLoaded', function () {
+  // Active link highlighting
+  const navLinks = document.querySelectorAll('.nav .links a');
+
+  navLinks.forEach(link => {
+    link.addEventListener('click', function () {
+      // Remove 'active' id from all links
+      navLinks.forEach(l => l.removeAttribute('id'));
+      // Add 'active' id to the clicked link
+      this.setAttribute('id', 'active');
+    });
+  });
+
+  // Mobile menu toggle
+  const menuIcon = document.getElementById('menu-icon');
+  const navList = document.getElementById('nav-links');
+
+  if (menuIcon && navList) {
+    menuIcon.addEventListener('click', () => {
+      navList.classList.toggle('show');
+      
+    });
+  }
+});
+
+
+  setTimeout(() => {
+    const welcomeScreen = document.getElementById("welcome-screen");
+    const mainContent = document.getElementById("main-content");
+
+    // Completely remove welcome screen from layout after fade animation
+    welcomeScreen.style.display = "none";
+
+    // Optional: show main content
+    if (mainContent) {
+      mainContent.style.display = "block";
+    }
+  }, 5000);
+
+
+
+  // email
+// script.js
+// (function () {
+//   emailjs.init("public_t59WzyfRLZqn8FQGN"); // Use your actual public key
+// })();
+emailjs.init("t59WzyfRLZqn8FQGN");
+
+
+
+  // Handle contact form submission using EmailJS
+  document.getElementById('contactForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    emailjs.sendForm('service_zi44onk', 'template_zze3grt', this)
+      .then(() => {
+        alert("Message sent successfully!");
+        this.reset();
+      }, (error) => {
+        alert("Failed to send message.\n" + JSON.stringify(error));
+      });
+  });
+
+  // Load comments from localStorage on page load
+window.addEventListener('DOMContentLoaded', () => {
+  const commentBox = document.getElementById('posted-comments');
+  const savedComments = JSON.parse(localStorage.getItem('comments')) || [];
+
+  savedComments.reverse().forEach(({ name, comment }) => {
+    const newComment = document.createElement('div');
+    newComment.classList.add('user-comment');
+    newComment.innerHTML = `<strong>${name}:</strong> <p>${comment}</p>`;
+    commentBox.appendChild(newComment);
+  });
+});
+
+
+
+
+
+
