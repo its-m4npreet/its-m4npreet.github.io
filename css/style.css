@@ -871,6 +871,14 @@ h2 .color {
   margin-bottom: 10px;
 }
 
+.project-information .bttn {
+  display: flex;
+width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 12px;
+}
+
 .project-information .button {
   background: transparent;
   color: #60a5fa;

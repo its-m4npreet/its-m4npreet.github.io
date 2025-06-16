@@ -155,6 +155,12 @@ window.addEventListener('DOMContentLoaded', () => {
   });
 });
 
+// Save comment to localStorage
+document.getElementsByClassName('project-btn').forEach(button => {
+  
+});
+
+
 
 
 
