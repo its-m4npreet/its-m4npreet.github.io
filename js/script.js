@@ -160,7 +160,8 @@ Array.from(document.getElementsByClassName('project-btn')).forEach(button => {
     const card = button.closest('.project-card');
     const projectName = card.querySelector('.project-title').textContent;
     const projectDescription = card.querySelector('.project-desc').textContent;
-    const link = card.querySelector('.project-link')?.href || '';
+        const linkElement = card.querySelector('.project-link');
+    const link = linkElement ? linkElement.getAttribute('data-link') || '' : '';
     const image = card.querySelector('img')?.src || '';
 
     // Store as a history list
