@@ -155,9 +155,36 @@ window.addEventListener('DOMContentLoaded', () => {
   });
 });
 
-// Save comment to localStorage
-document.getElementsByClassName('project-btn').forEach(button => {
-  
+Array.from(document.getElementsByClassName('project-btn')).forEach(button => {
+  button.addEventListener('click', () => {
+    const card = button.closest('.project-card');
+    const projectName = card.querySelector('.project-title').textContent;
+    const projectDescription = card.querySelector('.project-desc').textContent;
+    const link = card.querySelector('.project-link')?.href || '';
+    const image = card.querySelector('img')?.src || '';
+
+    // Store as a history list
+    const savedProjects = JSON.parse(localStorage.getItem('projects')) || [];
+    savedProjects.push({
+      name: projectName,
+      description: projectDescription,
+      link: link,
+      image: image
+    });
+    localStorage.setItem('projects', JSON.stringify(savedProjects));
+
+    // Store the selected project for the second page
+    const selectedProject = {
+      name: projectName,
+      description: projectDescription,
+      link: link,
+      image: image
+    };
+    localStorage.setItem('selectedProject', JSON.stringify(selectedProject));
+
+    // Redirect to the second page
+    window.location.href = '/html/project.html';
+  });
 });
 
 
