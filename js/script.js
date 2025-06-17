@@ -52,11 +52,29 @@ async function loadComments() {
     const data = doc.data();
     const div = document.createElement('div');
     div.className = "user-comment";
+    // Helper to format time as "x min ago"
+    function timeAgo(date) {
+      const now = new Date();
+      const seconds = Math.floor((now - date) / 1000);
+      if (seconds < 60) return "just now";
+      const minutes = Math.floor(seconds / 60);
+      if (minutes < 60) return `${minutes} min ago`;
+      const hours = Math.floor(minutes / 60);
+      if (hours < 24) return `${hours} hr${hours > 1 ? "s" : ""} ago`;
+      const days = Math.floor(hours / 24);
+      return `${days} day${days > 1 ? "s" : ""} ago`;
+    }
+
+    let commentTime = "";
+    if (data.timestamp?.toDate) {
+      commentTime = timeAgo(data.timestamp.toDate());
+    }
+
     div.innerHTML = `
       <div class="comment-header">
       <span class="avatar">${data.name ? data.name.charAt(0).toUpperCase() : "?"}</span>
       <strong class="commenter-name">${data.name || "Anonymous"}</strong>
-      <span class="comment-time">${data.timestamp?.toDate ? data.timestamp.toDate().toLocaleString() : ""}</span>
+      <span class="comment-time">${commentTime}</span>
       </div>
       <div class="comment-body">
       <p>${data.message}</p>
@@ -127,8 +145,6 @@ document.addEventListener('DOMContentLoaded', function () {
 // })();
 emailjs.init("t59WzyfRLZqn8FQGN");
 
-
-
   // Handle contact form submission using EmailJS
   document.getElementById('contactForm').addEventListener('submit', function (e) {
     e.preventDefault();
@@ -154,6 +170,38 @@ window.addEventListener('DOMContentLoaded', () => {
     commentBox.appendChild(newComment);
   });
 });
+
+// to get the comment message  in email
+// To send comment via email when the comment form is submitted
+// Ensure EmailJS is initialized (replace 'YOUR_USER_ID' with your actual EmailJS user ID)
+emailjs.init('t59WzyfRLZqn8FQGN');
+
+// Add event listener to the comment form
+document.getElementById('commentForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+
+  // Correctly select input elements using querySelector or getElementById
+  const name = document.querySelector('#commentForm #name').value.trim();
+  const comment = document.querySelector('#commentForm #message').value.trim();
+
+  // Send email using EmailJS
+  emailjs.send('service_zi44onk', 'template_zze3grt', {
+    name: name,
+    comment: comment
+  })
+  .then(function(response) {
+    // Show success message and reset form
+    alert('Comment sent successfully!'); // Replace with better UI feedback
+    console.log('SUCCESS!', response.status, response.text);
+    document.getElementById('commentForm').reset(); // Clear form
+  }, function(error) {
+    // Show specific error message
+    alert('Failed to send comment: ' + (error.text || 'Unknown error'));
+    console.log('FAILED...', error);
+  });
+});
+
+
 
 Array.from(document.getElementsByClassName('project-btn')).forEach(button => {
   button.addEventListener('click', () => {

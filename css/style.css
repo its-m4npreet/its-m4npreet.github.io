@@ -667,6 +667,9 @@ h2 .color {
   transform: translateY(-5px);
   box-shadow: 0 10px 32px rgba(56, 189, 248, 0.2);
 }
+.htk span{
+  margin-bottom: 5px;
+}
 
 .htk i {
   color: var(--HotYellow-color);
@@ -861,7 +864,7 @@ h2 .color {
 
 .project-information h3 {
   font-size: 1.2rem;
-  margin-bottom: 8px;
+  margin-bottom: px;
   color: #3b82f6;
 }
 
@@ -1087,6 +1090,7 @@ width: 100%;
   box-shadow: 0 2px 12px rgba(59,130,246,0.07);
   border: 1px solid rgba(96, 165, 250, 0.12);
   margin-bottom: 24px;
+  /* font-family: 'Montserrat', sans-serif; */
 }
 
 .contact-form h2 {
@@ -1142,6 +1146,9 @@ width: 100%;
   cursor: pointer;
   margin-top: 8px;
   transition: background 0.3s;
+}
+.contact-form ::placeholder ,#commentForm ::placeholder {
+  color:var(--LightGray-color);
 }
 
 .contact-form button:hover {
@@ -1416,7 +1423,7 @@ width: 100%;
   color: var(--Neon_Blue-color);
   font-weight: bold;
   font-size: 1.1rem;
-  margin-right: 8px;
+  /* margin-right: 8px; */
 }
 
 .comment-time {
@@ -1428,7 +1435,7 @@ width: 100%;
 }
 
 .comment-body p {
-  margin: 0 0 0 16px;
+  margin: 0 0 0 50px;
   color: var(--Off-White-color);
   font-size: 1.05rem;
   line-height: 1.6;
