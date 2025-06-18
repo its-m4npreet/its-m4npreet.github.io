@@ -232,7 +232,7 @@ Array.from(document.getElementsByClassName('project-btn')).forEach(button => {
     localStorage.setItem('selectedProject', JSON.stringify(selectedProject));
 
     // Redirect to the second page
-    window.location.href = '/html/project.html';
+    window.location.href = '/html/p2.html';
   });
 });
 

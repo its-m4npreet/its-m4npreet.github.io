@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio Website</title>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #f7f8fa;
+            --card-bg: #ffffff;
+            --text-color: #1a1a1a;
+            --accent-color: #2563eb;
+            --hover-color: #1741a6;
+            --secondary-text: #444;
+            --border-color: #e0e2ea;
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #1a1a1a;
+            --card-bg: #2a2a2a;
+            --text-color: #f7f8fa;
+            --accent-color: #60a5fa;
+            --hover-color: #3b82f6;
+            --secondary-text: #d1d5db;
+            --border-color: #4b5563;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, var(--bg-color) 0%, #e5e7eb 100%);
+            color: var(--text-color);
+            transition: all 0.3s ease;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 40px auto;
+            background: var(--card-bg);
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            padding: 40px;
+            position: relative;
+            animation: fadeIn 0.5s ease-out;
+            flex: 1;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+            padding: 16px;
+            background: var(--card-bg);
+            border-bottom: 1px solid var(--border-color);
+            /* position: sticky;
+            top: 0;
+            z-index: 10; */
+            border-radius: 16px 16px 0 0;
+        }
+
+        .header .btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--border-color);
+            color: var(--text-color);
+            padding: 8px 18px;
+            border-radius: 8px;
+            font-size: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .header .btn:hover {
+            background: var(--accent-color);
+            color: #fff;
+            transform: translateY(-2px);
+        }
+
+        .header .section,
+        .header .project-name {
+            font-weight: 600;
+            font-size: 16px;
+            color: var(--secondary-text);
+        }
+
+        .theme-toggle {
+            margin-left: auto;
+            cursor: pointer;
+            font-size: 20px;
+            color: var(--text-color);
+        }
+
+        .content {
+            display: flex;
+            gap: 48px;
+            flex-direction: row;
+            margin-top: 32px;
+        }
+
+        .left, .right {
+            flex: 1;
+        }
+
+        .title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+            background: linear-gradient(90deg, var(--accent-color), #4f46e5);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .description {
+            font-size: 1.1rem;
+            color: var(--secondary-text);
+            margin-bottom: 24px;
+            line-height: 1.7;
+        }
+
+        .bttns {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 24px;
+        }
+
+        .button {
+            background: var(--accent-color);
+            color: #fff;
+            padding: 10px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .button::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.4s ease, height 0.4s ease;
+        }
+
+        .button:hover::after {
+            width: 200px;
+            height: 200px;
+        }
+
+        .button:hover {
+            background: var(--hover-color);
+            transform: translateY(-3px);
+        }
+
+        .tackstack {
+            margin-bottom: 32px;
+        }
+
+        .tackstack-title {
+            font-weight: 600;
+            color: var(--accent-color);
+            margin-bottom: 12px;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .tackstack-list {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 8px;
+        }
+
+        .tackstack-item {
+            background: var(--border-color);
+            color: var(--accent-color);
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .tackstack-item:hover {
+            background: var(--accent-color);
+            color: #fff;
+            transform: scale(1.05);
+        }
+
+        .project-image {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            overflow: hidden;
+            border-radius: 12px;
+            background: linear-gradient(135deg, var(--border-color) 0%, var(--card-bg) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+        }
+
+        .project-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 12px;
+            transition: transform 0.35s cubic-bezier(.4,2,.3,1), box-shadow 0.3s;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+            display: block;
+        }
+
+        .project-image img:hover {
+            transform: scale(1.035) rotate(-1deg);
+            box-shadow: 0 8px 32px rgba(37,99,235,0.13);
+        }
+
+        .keyfeatures-title {
+            font-weight: 600;
+            color: var(--accent-color);
+            margin-bottom: 12px;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .keyfeatures-list {
+            padding-left: 20px;
+            margin: 0;
+            color: var(--secondary-text);
+            font-size: 15px;
+        }
+
+        .keyfeatures-item {
+            margin-bottom: 10px;
+            position: relative;
+            transition: transform 0.3s ease;
+        }
+
+        .keyfeatures-item:hover {
+            transform: translateX(10px);
+        }
+
+
+
+
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @media (max-width: 900px) {
+            .container {
+                padding: 24px;
+                margin: 20px;
+            }
+            .content {
+                flex-direction: column;
+                gap: 32px;
+            }
+            .title {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .header {
+                padding: 12px;
+            }
+            .bttns {
+                flex-direction: column;
+                gap: 12px;
+            }
+            .button {
+                width: 100%;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body data-theme="dark">
+    <div class="container">
+        <div class="header" data-aos="fade-down" data-aos-duration="600">
+            <a href="/index.html" class="back btn"><i class="ri-arrow-left-line"></i> Back</a>
+            <span class="tag">></span>
+            <span class="section">Project</span>
+            <span class="tag">></span>
+            <span class="project-name">Portfolio Website</span>
+            <i class="ri-sun-line theme-toggle" onclick="toggleTheme()"></i>
+        </div>
+        <div class="content">
+            <div class="left">
+                <div class="title" data-aos="fade-right" data-aos-duration="800">Personal Portfolio Website</div>
+                <div class="description" data-aos="fade-right" data-aos-duration="800" data-aos-delay="100">
+                    A responsive and modern portfolio website to showcase my projects, skills, and experience. Built with HTML, CSS, and JavaScript, it features smooth navigation, interactive elements, and a sleek design with dark mode support.
+                </div>
+                <div class="bttns" data-aos="fade-right" data-aos-duration="800" data-aos-delay="200">
+                    <a href="https://your-portfolio-demo-link.com" class="livedemo button" target="_blank">Live Demo</a>
+                    <a href="https://github.com/yourusername/portfolio" class="source button" target="_blank">Source Code</a>
+                </div>
+                <div class="tackstack" data-aos="fade-right" data-aos-duration="800" data-aos-delay="300">
+                    <div class="tackstack-title">
+                        <span class="icon"><i class="ri-tools-line" style="color: var(--accent-color); margin-right: 6px;"></i></span>
+                        Tech Stack
+                    </div>
+                    <div class="tackstack-list">
+                        <span class="tackstack-item">HTML5</span>
+                        <span class="tackstack-item">CSS3</span>
+                        <span class="tackstack-item">JavaScript</span>
+                        <span class="tackstack-item">Remix Icon</span>
+                    </div>
+                </div>
+            </div>
+            <div class="right">
+                <div class="project-image" data-aos="fade-left" data-aos-duration="800">
+                    <img src="https://via.placeholder.com/640x360?text=Portfolio+Screenshot" alt="Portfolio Screenshot">
+                </div>
+                <div class="keyfeatures" data-aos="fade-left" data-aos-duration="800" data-aos-delay="100">
+                    <div class="keyfeatures-title">
+                        <span class="icon"><i class="ri-star-line" style="color: var(--accent-color); margin-right: 6px;"></i></span>
+                        Key Features
+                    </div>
+                    <ul class="keyfeatures-list">
+                        <li class="keyfeatures-item" data-aos="fade-left" data-aos-duration="800" data-aos-delay="200">Responsive design for all devices</li>
+                        <li class="keyfeatures-item" data-aos="fade-left" data-aos-duration="800" data-aos-delay="300">Project showcase with live demo links</li>
+                        <li class="keyfeatures-item" data-aos="fade-left" data-aos-duration="800" data-aos-delay="400">Smooth scrolling and navigation</li>
+                        <li class="keyfeatures-item" data-aos="fade-left" data-aos-duration="800" data-aos-delay="500">Modern UI with icon integration</li>
+                        <li class="keyfeatures-item" data-aos="fade-left" data-aos-duration="800" data-aos-delay="600">Dark mode toggle</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            once: true,
+            offset: 100
+        });
+
+        function toggleTheme() {
+            const body = document.body;
+            const currentTheme = body.getAttribute('data-theme');
+            const toggleIcon = document.querySelector('.theme-toggle');
+            if (currentTheme === 'dark') {
+                body.removeAttribute('data-theme');
+                toggleIcon.classList.remove('ri-sun-line');
+                toggleIcon.classList.add('ri-moon-line');
+            } else {
+                body.setAttribute('data-theme', 'dark');
+                toggleIcon.classList.remove('ri-moon-line');
+                toggleIcon.classList.add('ri-sun-line');
+            }
+        }
+
+
+
+    const title = document.querySelector('.title');
+  const desc = document.querySelector('.description');
+  const img = document.querySelector('.project-image img');
+  const link = document.querySelector('.livedemo a');
+  const project_name= document.querySelector('.project-name'); 
+
+  // Retrieve the selected project from localStorage
+  const selectedProject = JSON.parse(localStorage.getItem('selectedProject'));
+
+  console.log('Selected project from localStorage:', selectedProject);
+
+  if (selectedProject) {
+    title.textContent = project_name.textContent = selectedProject.name;
+    desc.textContent = selectedProject.description;
+    img.src = selectedProject.image || 'https://via.placeholder.com/400x200?text=No+Image';
+    link.href = selectedProject.link || '#'; // Fallback to '#' if no link
+  } else {
+    console.warn('No selected project found in localStorage');
+    // Optionally set default values
+    title.textContent = 'No Project Selected';
+    desc.textContent = 'No description available.';
+    img.src = 'https://via.placeholder.com/400x200?text=No+Image';
+    link.href = '#';
+  }
+    </script>
+</body>
+</html>
