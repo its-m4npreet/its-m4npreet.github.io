@@ -1814,7 +1814,7 @@ width: 100%;
 
 @media (max-width: 480px) {
   .nav {
-    margin: 5px;
+    margin: 10px;
     padding: 2px 5px;
   }
 

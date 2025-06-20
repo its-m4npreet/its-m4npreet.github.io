@@ -172,6 +172,24 @@ window.addEventListener('DOMContentLoaded', () => {
 });
 
 
+// when commented then it will inform the user that the comment was posted
+  document.getElementById('commentForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    const name = this.name.value;
+    const comment = this.comment.value;
+
+    // Send email using a different template (you must create it in EmailJS)
+    emailjs.send('service_zi44onk', 'template_pzrubdh', {
+      name: name,
+      comment: comment
+    });
+
+    this.reset();
+  });
+
+
+
 Array.from(document.getElementsByClassName('project-btn')).forEach(button => {
   button.addEventListener('click', () => {
     const card = button.closest('.project-card');
