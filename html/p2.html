@@ -399,7 +399,7 @@
     const title = document.querySelector('.title');
   const desc = document.querySelector('.description');
   const img = document.querySelector('.project-image img');
-  const link = document.querySelector('.livedemo a');
+  const link = document.querySelector('.livedemo');
   const project_name= document.querySelector('.project-name'); 
 
   // Retrieve the selected project from localStorage
@@ -420,6 +420,25 @@
     img.src = 'https://via.placeholder.com/400x200?text=No+Image';
     link.href = '#';
   }
+        // Object containing project keys and their GitHub source code URLs
+        const projectSources = {
+            "E-commerce": "https://github.com/its-m4npreet/E-commerce.git",
+            "Google-clone": "https://github.com/its-m4npreet/Google-clone-main.git",
+        };
+
+        document.querySelectorAll('.source').forEach(button => {
+            button.addEventListener('click', function(event) {
+            event.preventDefault();
+            const projectTitle = title.textContent.trim();
+            const sourceUrl = projectSources[projectTitle];
+            if (sourceUrl) {
+                window.open(sourceUrl, '_blank');
+            } else {
+                // fallback: open the href if mapping not found
+                window.open(button.href, '_blank');
+            }
+            });
+        });
     </script>
 </body>
 </html>
